@@ -1,53 +1,50 @@
-#!/usr/bin/env python
-import RPi.GPIO as gp
+#!/usr/bin/env python3
+import pigpio
 import time
-
-gp.setmode(gp.BCM)
 
 turn_pin = 26
 tilt_pin = 18
-gp.setup(turn_pin, gp.OUT)
-gp.setup(tilt_pin, gp.OUT)
 
-p1 = gp.PWM(turn_pin, 50)
-p2 = gp.PWM(tilt_pin, 100)
+class TableController:
+    def __init__(self):
+        print('Initializing Controller')
+        self.last_turn = 50
+        self.last_tilt = 50
+        self.turn(self.last_turn)
+        self.tilt(self.last_tilt)
+        time.sleep(2)
+        print('Controller initialized')
 
-p1.start(2.5)
-p2.start(2.5)
+    def turn(self, percent):
+        print('Turning to', percent)
+        pw = (2500 - 500) * percent / 100 + 500
+        pi.set_servo_pulsewidth(turn_pin, pw)
+        print('Successful turn')
 
-tilt_bot = 6
-tilt_top = 9
+    def tilt(self, percent):
+        print('Tilting to', percent)
+        pw = (1900 - 1450) * percent / 100 + 1450
+        pi.set_servo_pulsewidth(tilt_pin, pw)
+        print('Successful tilt')
 
-turn_bot = 2
-turn_top = 12
+    def move_to(self, turn_v, tilt_v, duration):
+        turn_dist = turn_v - self.last_turn
+        turn_inc = turn_dist / (10 * duration)
+        tilt_dist = tilt_v - self.last_tilt
+        tilt_inc = tilt_dist / (10 * duration)
 
-def turn(angle):
-    dc_val = angle * 3 / 90 + 6
-    p1.ChangeDutyCycle(dc_val)
+        for i in range(duration*10):
+            self.turn(self.last_turn)
+            self.tilt(self.last_tilt)
+            self.last_turn += turn_inc
+            self.last_tilt += tilt_inc
 
-def tilt(angle):
-    print(angle)
-    dc_val = angle * 10 / 90 + 2
-    p2.ChangeDutyCycle(dc_val)
 
-try:
-    p1.ChangeDutyCycle(20.0)
-    p2.ChangeDutyCycle(10.0)
-    time.sleep(.01)
-    p1.stop()
-    p2.stop()
-    gp.cleanup()
-    exit()
-    turn(45)
-    tilt(45)
-
-    time.sleep(5)
-
-    turn(100)
-    #tilt(50)
-except Exception as e:
-    print(e)
-
-p1.stop()
-p2.stop()
-gp.cleanup()
+pi = pigpio.pi()
+c = TableController()
+c.tilt(0)
+time.sleep(2)
+for i in range(100):
+    c.turn(i)
+    time.sleep(0.1)
+pi.stop()
