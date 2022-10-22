@@ -37,7 +37,7 @@ depth_stream.start()
 color_stream = dev.create_color_stream()
 color_stream.start()
 
-for i in range(1):
+for i in range(5):
 
     frame = depth_stream.read_frame()
     img = depth_frame_to_image(frame, True)
@@ -45,7 +45,7 @@ for i in range(1):
     frame = color_stream.read_frame()
     img = color_frame_to_image(frame)
     cv2.imwrite(str(i) + '_color.png', img)
-    time.sleep(0.5)
+    time.sleep(1)
 
 
 depth_stream.stop()
