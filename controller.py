@@ -4,12 +4,12 @@ import os
 import json
 import pigpio
 import subprocess
+import sys
 
 import logging
 logging.basicConfig(filename='log.log', level=logging.INFO)
 
 log = logging.getLogger(__name__)
-
 
 turn_pin = 26
 tilt_pin = 18
@@ -69,7 +69,5 @@ class TableController:
 
 
 c = TableController()
-for tilt in range(6):
-    c.move_to((tilt % 2) * 100, 100 - 10 * tilt, 4)
-c.move_to(50, 50, 3)
+c.move_to(float(sys.argv[1]), float(sys.argv[2]), 3)
 c.cleanup()
