@@ -3,6 +3,7 @@ import numpy as np
 from openni import openni2
 import time
 from matplotlib import pyplot as plt
+from urllib.request import urlopen
 
 
 openni2.initialize('C:\Program Files\OpenNI2\Samples\Bin')     # can also accept the path of the OpenNI redistribution
@@ -37,15 +38,17 @@ depth_stream.start()
 color_stream = dev.create_color_stream()
 color_stream.start()
 
-for i in range(5):
+urlopen("http://10.0.0.131:80/move/50&50")
+for i in range(25):
 
+    urlopen("http://10.0.0.131:80/lights")
+    time.sleep(1)
     frame = depth_stream.read_frame()
     img = depth_frame_to_image(frame, True)
     cv2.imwrite(str(i) + '_depth.png', img)
     frame = color_stream.read_frame()
     img = color_frame_to_image(frame)
     cv2.imwrite(str(i) + '_color.png', img)
-    time.sleep(1)
 
 
 depth_stream.stop()

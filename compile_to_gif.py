@@ -9,4 +9,4 @@ def compile_images(output_filename, directory, filetype, num_images):
 
 #compile_images('depth_images.gif', 'images/', '_depth.png', 60)
 #compile_images('color_images.gif', 'images/', '_color.png', 60)
-compile_images('stitched_gif.gif', 'stitched/', '_stitched.png', 60)
+compile_images('stitched_gif.gif', 'stitched/', '_stitched.png', 25)
