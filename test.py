@@ -9,7 +9,7 @@ def blink_leds(times):
 
 def move_table(turn, tilt):
     co(['sudo systemctl start pigpiod'], shell=True)
-    co(['./controller.py ' + str(turn) + ' ' + str(tilt)], shell=True)
+    co(['./TableController.py ' + str(turn) + ' ' + str(tilt)], shell=True)
     co(['sudo systemctl stop pigpiod'], shell=True)
 
 app = Flask(__name__)
