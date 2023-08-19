@@ -34,6 +34,10 @@ class SanderController:
         time.sleep(duration)
         self.pi.write(push_pin, 0)
 
+    def move(self, percent):
+        self.pull(1.35)
+        self.push(1.35 * percent / 100)
+
     def cleanup(self):
         self.pi.stop()
 
@@ -48,6 +52,7 @@ if __name__ == '__main__':
     commandMap = {
         'push': c.push,
         'pull': c.pull,
+        'move': c.move,
     }
     commandMap[args.command](float(args.duration))
     c.cleanup()
