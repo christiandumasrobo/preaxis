@@ -1,4 +1,4 @@
-images
-stitched
+imager/images
+imager/stitched
 *.png
 *.pyc

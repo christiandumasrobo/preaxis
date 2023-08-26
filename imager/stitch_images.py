@@ -1,4 +1,3 @@
-import sys
 from PIL import Image
 
 filenames = zip(['images/' + str(x) + '_depth.png' for x in range(25)], ['images/' + str(x) + '_color.png' for x in range(60)])
