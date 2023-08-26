@@ -38,8 +38,11 @@ depth_stream.start()
 color_stream = dev.create_color_stream()
 color_stream.start()
 
-urlopen("http://10.0.0.131:80/move/50&50")
+urlopen("http://10.0.0.131:80/move/20&20")
 for i in range(25):
+    turn = int(20 + i * 60/25)
+    tilt = int(20 + i * 60/25)
+    urlopen("http://10.0.0.131:80/move/" + str(turn) + "&" + str(tilt) + "")
 
     urlopen("http://10.0.0.131:80/lights")
     time.sleep(1)
